@@ -69,7 +69,7 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
 
-   log.trace(`recived : ${JSON.stringify(req.body)}`);
+   log.trace(`recived 1 : ${JSON.stringify(req.body)}`);
   const dateNow = new Date();
   res.send(`${hostName}: ${dateNow.toUTCString()}`);
 });
