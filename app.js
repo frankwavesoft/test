@@ -23,24 +23,8 @@ const isHttps = hostName.includes("https");
 const isLocal = hostName.includes("://192.168.");
 
 app.use(cors({ credentials: true, origin: process.env.ALLOW_ORIGIN }));
-// app.use(cors({ credentials: true }));
-app.use(cookieParser());
 
-app.use(
-  bodyParser.json({
-    verify: function (req, res, buf) {
-      if (
-        req.originalUrl === "/v1/stripe/webhook-connect" ||
-        req.originalUrl === "/v1/stripe/webhook"  ||
-        //frank
-        req.originalUrl === "/v1/business_payment_stripe/webhook-connect" ||
-        req.originalUrl === "/v1/business_payment_stripe/webhook"  
-      ) {
-        req.rawBody = buf;
-      }
-    },
-  })
-);
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -48,21 +32,8 @@ app.use("/images", (req, res, next) => {
   token.verifySignInAccessToken(req, res, next);
 });
 app.use("/images", express.static("images"));
-// app.use("/public", express.static("public"));
-
-// middleware
-// if (true) {
-//   const middlewareFunction = (req, res, next) => {
-//     log.trace(`Client request ---- ${req.method} ${req.url}`);
-//     next();
-//   };
-//   app.use(middlewareFunction);
-// }
-
 // home
 app.get("/", async (req, res) => {
-  // console.log(process.env.STRIPE_WEBHOOK_SECRET);
-  // console.log(process.env.STRIPE_WEBHOOK_CONNECT_SECRET);
   const dateNow = new Date();
   res.send(`${hostName}: ${dateNow.toUTCString()}`);
 });
